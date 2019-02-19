@@ -18,6 +18,15 @@ export default {
   },
   methods: {
     init() {
+      const keys = ["apples", "bananas", "oranges"];
+      var data = [
+        { month: 2013, apples: 100, bananas: 200, oranges: 130 },
+        { month: 2014, apples: 300, bananas: 150, oranges: 120 },
+        { month: 2015, apples: 200, bananas: 280, oranges: 200 },
+        { month: 2016, apples: 400, bananas: 100, oranges: 300 },
+        { month: 2017, apples: 230, bananas: 400, oranges: 100 }
+      ];
+
       const margin = 50;
       const width = 1000;
       const height = 1000;
@@ -29,15 +38,6 @@ export default {
         .style("border", "1px solid");
 
       const axisLength = height; //TODO:
-
-      const keys = ["apples", "bananas", "oranges"];
-      var data = [
-        { month: 2013, apples: 100, bananas: 200, oranges: 130 },
-        { month: 2014, apples: 300, bananas: 150, oranges: 120 },
-        { month: 2015, apples: 200, bananas: 280, oranges: 200 },
-        { month: 2016, apples: 400, bananas: 100, oranges: 300 },
-        { month: 2017, apples: 230, bananas: 400, oranges: 100 }
-      ];
 
       // const colorScale = function(key) {
       //   const color = {
@@ -119,12 +119,12 @@ export default {
         .enter()
         .append("rect") // For each year append a rectangle element
         .attr("x", function(d, i) {
-          return d.month;
+          return 100 + i * 100;
         }) // Place the rectangles with a space of 50px between them
         .attr("y", function(d) {
           return yScale(d["1"]);
         }) // Set the y attribute to the topline value in the series
-        .attr("width", 50)
+        .attr("width", 80)
         // Set the height to the difference between the topline and the baseline value
         // and subtract it from the height of the container leaving room for the top and bottom margins
         .attr("height", function(d) {
