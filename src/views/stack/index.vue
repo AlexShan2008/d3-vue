@@ -2,7 +2,7 @@
   <div class="hello">
     <h2>{{ msg }}</h2>
     <div class="svg-container"></div>
-    <div name="originData" id="originData" cols="30" rows="10" v-html="newData"></div>
+    <!-- <div name="originData" id="originData" cols="30" rows="10" v-html="newData"></div> -->
   </div>
 </template>
 
@@ -123,7 +123,7 @@ export default {
         );
 
         this.originData = data;
-        console.log(data, "originData");
+        // console.log(data, "originData");
 
         // Construct an index from the variable name to the column number (e.g., B01001_003E => 0).
         // We expect the state code to be the last column; verify this before continuing.

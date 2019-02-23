@@ -11,6 +11,14 @@
 </head>
 
 <body>
+  <script>
+    d3.csv("./src/data/tree.csv", function (d) {
+      return d;
+    }).then(function (data) {
+      var csvData = d3.csvParse(data);
+      console.log(csvData);
+    });
+  </script>
 
 </body>
 

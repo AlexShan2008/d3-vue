@@ -799,18 +799,19 @@
     babel-loader "^8.0.5"
     webpack ">=4 < 4.29"
 
-"@vue/cli-plugin-eslint@^3.4.0":
-  version "3.4.0"
-  resolved "http://registry.npm.taobao.org/@vue/cli-plugin-eslint/download/@vue/cli-plugin-eslint-3.4.0.tgz#e9fceff873661848be7e1341b31dad23302cd0ac"
-  integrity sha1-6fzv+HNmGEi+fhNBsx2tIzAs0Kw=
+"@vue/cli-plugin-eslint@^3.4.1":
+  version "3.4.1"
+  resolved "http://registry.npm.taobao.org/@vue/cli-plugin-eslint/download/@vue/cli-plugin-eslint-3.4.1.tgz#59896379e12d68aefcdccac28c691cb6e23e5720"
+  integrity sha1-WYljeeEtaK783MrCjGkctuI+VyA=
   dependencies:
-    "@vue/cli-shared-utils" "^3.4.0"
+    "@vue/cli-shared-utils" "^3.4.1"
     babel-eslint "^10.0.1"
-    eslint "^4.19.1"
-    eslint-loader "^2.1.1"
-    eslint-plugin-vue "^4.7.1"
+    eslint-loader "^2.1.2"
     globby "^9.0.0"
     webpack ">=4 < 4.29"
+  optionalDependencies:
+    eslint "^4.19.1"
+    eslint-plugin-vue "^4.7.1"
 
 "@vue/cli-service@^3.4.0":
   version "3.4.0"
@@ -873,6 +874,24 @@
   version "3.4.0"
   resolved "http://registry.npm.taobao.org/@vue/cli-shared-utils/download/@vue/cli-shared-utils-3.4.0.tgz#4331cb926351e399bf7305a9306bf09d0f2a1b9d"
   integrity sha1-QzHLkmNR45m/cwWpMGvwnQ8qG50=
+  dependencies:
+    chalk "^2.4.1"
+    execa "^1.0.0"
+    joi "^14.3.0"
+    launch-editor "^2.2.1"
+    lru-cache "^5.1.1"
+    node-ipc "^9.1.1"
+    opn "^5.3.0"
+    ora "^3.0.0"
+    request "^2.87.0"
+    request-promise-native "^1.0.5"
+    semver "^5.5.0"
+    string.prototype.padstart "^3.0.0"
+
+"@vue/cli-shared-utils@^3.4.1":
+  version "3.4.1"
+  resolved "http://registry.npm.taobao.org/@vue/cli-shared-utils/download/@vue/cli-shared-utils-3.4.1.tgz#963454d2d2bc549d027c8988666c939903be6d7e"
+  integrity sha1-ljRU0tK8VJ0CfImIZmyTmQO+bX4=
   dependencies:
     chalk "^2.4.1"
     execa "^1.0.0"
@@ -2448,6 +2467,13 @@ csso@^3.5.0:
   dependencies:
     css-tree "1.0.0-alpha.29"
 
+csv-loader@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/csv-loader/-/csv-loader-3.0.2.tgz#2af224a0582c47b761b4eee70576bd0e15af34b3"
+  integrity sha512-NSgkStzsNscNssEGjj4upYIm6AfPrJOCAAYoujjnszkAAboLZE7ChNOHO8YTlBLEMsQ6lizC9raIhfONneaA6g==
+  dependencies:
+    loader-utils "^1.1.0"
+
 cyclist@~0.2.2:
   version "0.2.2"
   resolved "http://registry.npm.taobao.org/cyclist/download/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
@@ -3126,7 +3152,7 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   resolved "http://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
 
-eslint-loader@^2.1.1:
+eslint-loader@^2.1.2:
   version "2.1.2"
   resolved "http://registry.npm.taobao.org/eslint-loader/download/eslint-loader-2.1.2.tgz#453542a1230d6ffac90e4e7cb9cadba9d851be68"
   integrity sha1-RTVCoSMNb/rJDk58ucrbqdhRvmg=
@@ -7878,6 +7904,11 @@ vue-loader@^15.6.2:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-router@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
+  integrity sha512-opKtsxjp9eOcFWdp6xLQPLmRGgfM932Tl56U9chYTnoWqKxQ8M20N7AkdEbM5beUh6wICoFGYugAX9vQjyJLFg==
 
 vue-style-loader@^4.1.0:
   version "4.1.2"
