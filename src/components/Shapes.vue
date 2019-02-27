@@ -12,6 +12,27 @@
     <div>
       <svg class="js-shapes-arc"></svg>
     </div>
+    <div>
+      <svg class="js-shapes-arc2"></svg>
+    </div>
+    <div>
+      <svg class="js-shapes-lines"></svg>
+      <button @click="render('linear')">Linear</button>
+      <button @click="render('linearClosed')">Linear Closed</button>
+      <button @click="render('basis')">Basis</button>
+      <button @click="render('basisClosed')">Basis Closed</button>
+      <button @click="render('cardinal')">Cardinal</button>
+      <button @click="render('cardinalClosed')">Cardinal Closed</button>
+      <br>
+      <br>
+      <button @click="render('step')">Step</button>
+      <button @click="render('stepBefore')">Step Before</button>
+      <button @click="render('stepAfter')">Step After</button>
+      <button @click="render('bundle')">Bundle</button>
+    </div>
+    <div>
+      <svg class="js-shapes-areas"></svg>
+    </div>
   </div>
 </template>
 
@@ -27,6 +48,122 @@ export default {
     this.init();
   },
   methods: {
+    render(curveType) {
+      const width = 500;
+      const height = 300;
+      const margin = 25;
+      var xaxisLength = width - 2 * margin;
+      var yaxisLength = height - 2 * margin;
+
+      const svgContainerLines = d3
+        .select(".js-shapes-lines")
+        .attr("width", width)
+        .attr("height", height);
+
+      var curveTypeMap = {
+        linear: d3.curveLinear,
+        linearClosed: d3.curveLinearClosed,
+        basis: d3.curveBasis,
+        basisClosed: d3.curveBasisClosed,
+        cardinal: d3.curveCardinal,
+        cardinalClosed: d3.curveCardinalClosed,
+        step: d3.curveStep,
+        stepBefore: d3.curveStepBefore,
+        stepAfter: d3.curveStepAfter,
+        bundle: d3.curveBundle
+      };
+
+      d3.selectAll("path.line1,path.line2").remove();
+
+      var data1 = [
+        { x: 0, y: 4 },
+        { x: 1, y: 9 },
+        { x: 2, y: 6 },
+        { x: 4, y: 5 },
+        { x: 6, y: 7 },
+        { x: 7, y: 3 },
+        { x: 9, y: 2 }
+      ];
+
+      var data2 = [
+        { x: 0, y: 3 },
+        { x: 2, y: 7 },
+        { x: 3, y: 4 },
+        { x: 4, y: 3 },
+        { x: 6, y: 3 },
+        { x: 8, y: 4 },
+        { x: 9, y: 1 }
+      ];
+
+      var lxScale = d3
+        .scaleLinear()
+        .domain([0, 10])
+        .range([0, xaxisLength]);
+
+      var lyScale = d3
+        .scaleLinear()
+        .domain([10, 0])
+        .range([0, yaxisLength]);
+
+      var lxAxis = d3.axisBottom(lxScale);
+      var lyAxis = d3.axisLeft(lyScale);
+
+      svgContainerLines
+        .append("g")
+        .classed("x-axis", true)
+        .attr("transform", function() {
+          return "translate(" + margin + "," + (height - margin) + ")";
+        })
+        .call(lxAxis);
+
+      svgContainerLines
+        .append("g")
+        .classed("y-axis", true)
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        })
+
+        .call(lyAxis);
+
+      var line = d3
+        .line()
+        .x(function(d) {
+          return lxScale(d.x);
+        })
+        .y(function(d) {
+          return lyScale(d.y);
+        });
+
+      line = d3
+        .line()
+        .x(function(d) {
+          return lxScale(d.x);
+        })
+        .y(function(d) {
+          return lyScale(d.y);
+        })
+        .curve(curveTypeMap[curveType]); // Specifies the curve type (interpolation)
+
+      svgContainerLines
+        .append("path")
+        .classed("line1", true)
+        .attr("d", line(data1))
+        .attr("fill", "none")
+        .attr("stroke", "red")
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        });
+
+      svgContainerLines
+        .append("path")
+        .classed("line2", true)
+        .attr("d", line(data2))
+        .attr("fill", "none")
+        .attr("stroke", "blue")
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        });
+    },
     init() {
       const width = 500;
       const height = 300;
@@ -36,6 +173,7 @@ export default {
         left: 10,
         right: 10
       };
+      var ease = d3.easeCubic;
 
       const svgContainerLine = d3
         .select(".js-shapes-line")
@@ -54,6 +192,16 @@ export default {
 
       const svgContainerRect = d3
         .select(".js-shapes-rect")
+        .attr("width", width)
+        .attr("height", height);
+
+      const svgContainerLines = d3
+        .select(".js-shapes-lines")
+        .attr("width", width)
+        .attr("height", height);
+
+      const svgContainerAreas = d3
+        .select(".js-shapes-areas")
         .attr("width", width)
         .attr("height", height);
 
@@ -88,8 +236,24 @@ export default {
       var line = d3
         .line()
         .x(d => xScale(d.x))
-        .y(d => yScale(d.y))
+        .y(d => yScale(ease(d.y)))
         .curve(d3.curveBasis); // Specifies the curve type (interpolation)
+
+      var dot1 = svgContainerLine
+        .append("circle")
+        .attr("r", 5)
+        .attr("fill", "green");
+      var dot2 = svgContainerLine
+        .append("circle")
+        .attr("cx", width - 20)
+        .attr("r", 5)
+        .attr("fill", "green");
+
+      d3.timer(function(elapsed) {
+        var t = (elapsed % 3000) / 3000;
+        dot1.attr("cx", xScale(t)).attr("cy", yScale(t));
+        dot2.attr("cy", yScale(t));
+      });
 
       var area = d3
         .area()
@@ -112,7 +276,7 @@ export default {
       svgContainerArea
         .append("path")
         .attr("d", area(data))
-        .attr("fill", "none")
+        .attr("fill", "green")
         .attr("stroke", "red");
 
       // arc
@@ -140,6 +304,43 @@ export default {
         .attr("fill", "green")
         .attr("stroke", "purple")
         .attr("stroke-width", "5");
+
+      const svgContainerArc2 = d3
+        .select(".js-shapes-arc2")
+        .attr("width", 1000)
+        .attr("height", 500);
+
+      var fullAngle = 2 * Math.PI;
+
+      var arc1 = d3
+        .arc()
+        .innerRadius(0)
+        .outerRadius(100)
+        .startAngle(0)
+        .endAngle(fullAngle / 4);
+
+      var arc2 = d3
+        .arc()
+        .innerRadius(50)
+        .outerRadius(100)
+        .startAngle(0)
+        .endAngle(fullAngle);
+
+      var group1 = svgContainerArc2.append("g");
+      var group2 = svgContainerArc2.append("g");
+
+      group1
+        .append("path")
+        .attr("d", arc1())
+        .attr("fill", "red");
+
+      group2
+        .append("path")
+        .attr("d", arc2())
+        .attr("fill", "blue");
+
+      group1.attr("transform", "translate(" + 200 + "," + 200 + ")");
+      group2.attr("transform", "translate(" + 200 + "," + 350 + ")");
 
       //画长方形
       var rectangle = svgContainerRect
@@ -177,6 +378,141 @@ export default {
             };
           });
       });
+
+      var margin = 25;
+      var xaxisLength = width - 2 * margin;
+      var yaxisLength = height - 2 * margin;
+
+      var data1 = [
+        { x: 0, y: 4 },
+        { x: 1, y: 9 },
+        { x: 2, y: 6 },
+        { x: 4, y: 5 },
+        { x: 6, y: 7 },
+        { x: 7, y: 3 },
+        { x: 9, y: 2 }
+      ];
+
+      var data2 = [
+        { x: 0, y: 3 },
+        { x: 2, y: 7 },
+        { x: 3, y: 4 },
+        { x: 4, y: 3 },
+        { x: 6, y: 3 },
+        { x: 8, y: 4 },
+        { x: 9, y: 1 }
+      ];
+
+      var lxScale = d3
+        .scaleLinear()
+        .domain([0, 10])
+        .range([0, xaxisLength]);
+
+      var lyScale = d3
+        .scaleLinear()
+        .domain([10, 0])
+        .range([0, yaxisLength]);
+
+      var lxAxis = d3.axisBottom(lxScale);
+      var lyAxis = d3.axisLeft(lyScale);
+
+      svgContainerLines
+        .append("g")
+        .classed("x-axis", true)
+        .attr("transform", function() {
+          return "translate(" + margin + "," + (height - margin) + ")";
+        })
+        .call(lxAxis);
+
+      svgContainerLines
+        .append("g")
+        .classed("y-axis", true)
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        })
+        .call(lyAxis);
+
+      var line = d3
+        .line()
+        .x(function(d) {
+          return lxScale(d.x);
+        })
+        .y(function(d) {
+          return lyScale(d.y);
+        });
+
+      svgContainerLines
+        .append("path")
+        .attr("d", line(data1))
+        .attr("fill", "none")
+        .attr("stroke", "red")
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        });
+
+      svgContainerLines
+        .append("path")
+        .attr("d", line(data2))
+        .attr("fill", "none")
+        .attr("stroke", "blue")
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        });
+
+      this.render("linear"); // Initial rendering
+
+      var areas = d3
+        .area()
+        .x(function(d) {
+          return lxScale(d.x);
+        })
+        .y0(lyScale(0)) // 闭合曲线
+        .y1(function(d) {
+          // 闭合曲线
+          return lyScale(d.y);
+        })
+        // .y(function(d) {
+        //   return lyScale(d.y);
+        // })
+        .curve(d3.curveLinear);
+
+      svgContainerAreas
+        .append("g")
+        .classed("x-axis", true)
+        .attr("transform", function() {
+          return "translate(" + margin + "," + (height - margin) + ")";
+        })
+        .call(lxAxis);
+
+      svgContainerAreas
+        .append("g")
+        .classed("y-axis", true)
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        })
+        .call(lyAxis);
+
+      // append的顺序决定了图层覆盖的先后顺序
+
+      svgContainerAreas
+        .append("path")
+        .classed("area1", true)
+        .attr("d", areas(data1))
+        .attr("fill", "#ffad99")
+        .attr("stroke", "red")
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        });
+
+      svgContainerAreas
+        .append("path")
+        .classed("area2", true)
+        .attr("d", areas(data2))
+        .attr("fill", "#b3d9ff")
+        .attr("stroke", "blue")
+        .attr("transform", function() {
+          return "translate(" + margin + "," + margin + ")";
+        });
     }
   }
 };

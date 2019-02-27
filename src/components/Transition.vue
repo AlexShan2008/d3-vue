@@ -41,6 +41,7 @@ export default {
         .transition()
         .delay(1000)
         .duration(2000)
+        .ease(d3.easeBounceIn)
         .style("background-color", "blue")
         .style("border-radius", "0px")
         .on("start", function() {

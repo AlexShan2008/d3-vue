@@ -21,7 +21,7 @@ export default {
       // First declare some variables for dimension and margin for the container
       var width = 500;
       var height = 500;
-      var margin = 25;
+      var margin = 40;
       var axisLength = height - 2 * margin; // Leave margin on both sides left-right or top-bottom
 
       // The main container to house our axes groups
@@ -83,7 +83,7 @@ export default {
           .attr("transform", function() {
             return "translate(" + margin + "," + margin + ")";
           })
-          .call(yAxis);
+          .call(yAxis.tickSize(10).tickPadding(6)); // tickSize tick的长度； tickPadding padding值
 
         svgContainer
           .selectAll("g.y-axis g.tick")
