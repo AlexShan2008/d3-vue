@@ -5,6 +5,7 @@
     <Transition msg="Transition"/>
     <Shapes msg="Shapes"/>
     <Layouts msg="Layouts"/>
+    <Pie msg="Pie"/>
   </div>
 </template>
 
@@ -13,6 +14,7 @@ import Axis from "../../components/Axis.vue";
 import Transition from "../../components/Transition.vue";
 import Shapes from "../../components/Shapes.vue";
 import Layouts from "../../components/Layouts.vue";
+import Pie from "../../components/Pie.vue";
 
 export default {
   name: "home",
@@ -25,7 +27,8 @@ export default {
     Axis,
     Transition,
     Shapes,
-    Layouts
+    Layouts,
+    Pie
   }
 };
 </script>
